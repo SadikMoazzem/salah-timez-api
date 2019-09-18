@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, render_template
+from data import SalahData
 
 from datetime import date
 import logging
@@ -13,7 +14,7 @@ def test():
 # Product API
 @app.route('/status')
 def hello():
-    return "Build OK!"
+    return SalahData
 
 
 if __name__ == '__main__':
