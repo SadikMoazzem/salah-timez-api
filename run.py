@@ -43,7 +43,6 @@ def test():
         <HTML>
             <BODY>
                 <H1>Endpoints</H1>
-                <BR/>
                 <H3>
                 /Salah - Will get you the current day salah times
                 </H3>
@@ -76,6 +75,12 @@ def index():
         "isha_jammat": salah_times_month["isha_jammat"]["{}".format(currentDay)],
     }
     return jsonify(salah_times_today)
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
