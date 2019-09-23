@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request, render_template
 from data import salah_times
-from datetime import datetime
+from datetime import datetime, timedelta
 import math
+
+from database_connection import get_today_salah_times
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -54,27 +56,26 @@ def test():
 
 @app.route('/salah')
 def index():
-    today = datetime.today()
-    months = ["JAN" ,"FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"]
-    current_month = months[today.month-1]
-    currentDay = today.day
-    salah_times_month = salah_times[current_month]
+    calendar_id = request.args.get('calendar_id')
+    if not calendar_id:
+        calendar_id = 1
 
-    salah_times_today = {
-        "fajir_start": salah_times_month["fajir_start"]["{}".format(currentDay)],
-        "fajir_jammat": salah_times_month["fajir_jammat"]["{}".format(currentDay)],
-        "sunrise": salah_times_month["sunrise"]["{}".format(currentDay)],
-        "zuhr_start": salah_times_month["zuhr_start"]["{}".format(currentDay)],
-        "zuhr_jammat": salah_times_month["zuhr_jammat"]["{}".format(currentDay)],
-        "asr_1_start": salah_times_month["asr_1_start"]["{}".format(currentDay)],
-        "asr_2_start": salah_times_month["asr_2_start"]["{}".format(currentDay)],
-        "asr_jammat": salah_times_month["asr_jammat"]["{}".format(currentDay)],
-        "magrib_start": salah_times_month["magrib_start"]["{}".format(currentDay)],
-        "magrib_jammat": salah_times_month["magrib_jammat"]["{}".format(currentDay)],
-        "isha_start": salah_times_month["isha_start"]["{}".format(currentDay)],
-        "isha_jammat": salah_times_month["isha_jammat"]["{}".format(currentDay)],
-    }
-    return jsonify(salah_times_today)
+    res = get_today_salah_times(str(calendar_id), str(datetime.now().month), str(datetime.now().day))
+    return jsonify({str(datetime.now().month): res})
+
+
+@app.route('/egar_load')
+def egar_load():
+    from datetime import datetime, timedelta
+    now = datetime.now()
+    res = []
+
+    for i in range(1,8):
+        end_date = now + timedelta(days=i)
+        salah = get_today_salah_times('1', str(end_date.month), str(end_date.day))
+        res.append(salah)
+    
+    return jsonify(res)
 
 
 @app.route('/', defaults={'path': ''})
