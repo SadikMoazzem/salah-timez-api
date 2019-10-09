@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
 from data import salah_times
 from datetime import datetime, timedelta
 import math
@@ -6,6 +7,7 @@ import math
 from database_connection import get_today_salah_times
 
 app = Flask(__name__)
+CORS(app)
 app.config['JSON_SORT_KEYS'] = False
 
 def intPart(floatNum):
