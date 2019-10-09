@@ -47,9 +47,9 @@ def test():
         <HTML>
             <BODY>
                 <H1>Endpoints</H1>
-                <H3>
-                /Salah - Will get you the current day salah times
-                </H3>
+                <p>
+                /salah - Will get you the current day salah times
+                </p>
             </BODY>
         <HTML>
     """
