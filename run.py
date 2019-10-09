@@ -72,7 +72,7 @@ def egar_load():
     now = datetime.now()
     res = []
 
-    for i in range(1,8):
+    for i in range(0,7):
         end_date = now + timedelta(days=i)
         salah = get_today_salah_times('1', str(end_date.month), str(end_date.day))
         res.append(salah)
