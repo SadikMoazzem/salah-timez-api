@@ -1,4 +1,5 @@
 import math
+import os
 from flask import jsonify, request, render_template
 from datetime import datetime, timedelta
 
@@ -28,3 +29,11 @@ def index():
     salahs = Prayer_Times_Repository.get_today_salah_times()
   
     return jsonify({datetime.now().strftime('%Y-%m-%d'): salahs})
+
+@app.before_request
+def before_request_func():
+    auth_request_token = request.headers.get('X-Auth-Token')
+    AUTH_TOKEN = os.environ.get('AUTH_TOKEN')
+    if AUTH_TOKEN != auth_request_token:
+        response = jsonify({'NOT AUTHORIZED':'Token not valid!'})
+        return response, 401
