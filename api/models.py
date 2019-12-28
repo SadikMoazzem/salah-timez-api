@@ -7,3 +7,11 @@ class PrayerTimes(db.Model):
     type = db.Column(db.String)
     time = db.Column(db.DateTime)
     date = db.Column(db.DateTime)
+
+    def result(self):
+        salah = {
+            'salah': self.salah,
+            self.type: self.time
+        }
+
+        return salah

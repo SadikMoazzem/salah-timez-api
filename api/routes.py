@@ -25,9 +25,6 @@ def index():
     if not calendar_id:
         calendar_id = 1
 
-    # res = get_today_salah_times(str(calendar_id), str(datetime.now().month), str(datetime.now().day))
-    t : models.PrayerTimes = Prayer_Times_Repository.get_today_salah_times()
+    salahs = Prayer_Times_Repository.get_today_salah_times()
   
-    for s in t:
-        print(s.date)
-    return jsonify({})
+    return jsonify({datetime.now().strftime('%Y-%m-%d'): salahs})
