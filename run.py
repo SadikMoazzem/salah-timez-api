@@ -1,14 +1,21 @@
 from flask import Flask, jsonify, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+
 from data import salah_times
 from datetime import datetime, timedelta
 import math
 
 from database_connection import get_today_salah_times
 
+url = 'postgres://jggkphnqehagqp:6a13df78dd9ce1e1b8ed9a76cd42e37f9b55587a3372b8ffda814f3294810d93@ec2-176-34-184-174.eu-west-1.compute.amazonaws.com:5432/dco45j4dohrfho'
+
+"""Construct the core application."""
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_SORT_KEYS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = url
+db = SQLAlchemy(app)
 
 def intPart(floatNum):
     if floatNum < -0.0000001: return math.ceil(floatNum - 0.0000001)
@@ -76,7 +83,7 @@ def egar_load():
         end_date = now + timedelta(days=i)
         salah = get_today_salah_times('1', str(end_date.month), str(end_date.day))
         res.append(salah)
-    
+    # Sort the times into months
     return jsonify(res)
 
 
