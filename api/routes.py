@@ -35,6 +35,6 @@ def before_request_func():
     auth_request_token = request.headers.get('Authorization')
     print('token given : ' + str(auth_request_token))
     AUTH_TOKEN = 'Bearer ' + str(os.environ.get('AUTH_TOKEN'))
-    if AUTH_TOKEN != auth_request_token:
-        response = jsonify({'NOT AUTHORIZED':'Token not valid!'})
-        return response, 401
+    # if AUTH_TOKEN != auth_request_token:
+    #     response = jsonify({'NOT AUTHORIZED':'Token not valid!'})
+    #     return response, 401
