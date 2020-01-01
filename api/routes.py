@@ -22,13 +22,23 @@ def test():
 
 @app.route('/salah')
 def index():
+    print('/salah - Endpoint called')
     calendar_id = request.args.get('calendar_id')
     if not calendar_id:
         calendar_id = 1
 
-    salahs = Prayer_Times_Repository.get_today_salah_times()
-  
-    return jsonify({datetime.now().strftime('%Y-%m-%d'): salahs})
+    print('Starting work')
+    res = {}
+    date = datetime.now()
+
+    res[date.strftime('%Y-%m-%d')] = Prayer_Times_Repository.get_salah_times(date)
+    for i in range(6): 
+        date += timedelta(days=1)
+        res[date.strftime('%Y-%m-%d')] = Prayer_Times_Repository.get_salah_times(date)
+    
+    print('Work done')
+    print('Response -' + str(res))
+    return jsonify(res)
 
 @app.before_request
 def before_request_func():
