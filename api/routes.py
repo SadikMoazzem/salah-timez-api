@@ -13,7 +13,7 @@ def test():
             <BODY>
                 <H1>Endpoints</H1>
                 <p>
-                /salah - Will get you the current day salah times
+                /salah - Will get you salah times for the next 7 days
                 </p>
             </BODY>
         <HTML>
@@ -37,8 +37,15 @@ def index():
         res[date.strftime('%Y-%m-%d')] = Prayer_Times_Repository.get_salah_times(date)
     
     print('Work done')
-    print('Response -' + str(res))
     return jsonify(res)
+
+
+# @app.route('/bearer')
+# def index():
+#     print('/bearer - Endpoint called')
+#     # Needs to give Date and App version
+
+#     # return jsonify(res)
 
 @app.before_request
 def before_request_func():
