@@ -1,6 +1,5 @@
-# salah-timez-api
+# SalahTimez API
 
-set $env:AUTH_TOKEN = ''
-and set $env:HEROKU_POSTGRESQL_PUCE_URL = ''
+new home under deenful.com
 
- heroku logs -a salah-timez-api --tail
+https://github.com/deenful/salahtimez.api.deenful.com
